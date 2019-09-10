@@ -1,28 +1,25 @@
+package by.epam.ayem.module4;
+
 /*4. Счета. Клиент может иметь несколько счетов в банке. Учитывать возможность блокировки/разблокировки счета.
 Реализовать поиск и сортировку счетов. Вычисление общей сумы по счетам. Вычисление общей суммы по всем счетам,
 имеющим положительный и отрицательный балансы отдельно.*/
 
-public class Account {
+public class Account implements Comparable {
 
     private long accountNumber;
-    private int balance;
-    private boolean block;
+    private int balance = 0;
+    private boolean block = false;
     private Currency currency;
 
-    public Account(long accountNumber, int balance, Currency currency, boolean block) {
+    public Account(long accountNumber, Currency currency) {
+        this.accountNumber = accountNumber;
+        this.currency = currency;
+    }
+
+    public Account(long accountNumber, int balance, Currency currency) {
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.currency = currency;
-        this.block = block;
-    }
-
-    @Override
-    public String toString() {
-        return "Account #" + accountNumber +
-                " in " + currency +
-                ". Balance: " + balance +
-                ". Status: " + block +
-                ".";
     }
 
     public Currency getCurrency() {
@@ -55,5 +52,25 @@ public class Account {
 
     public void setBlock(boolean block) {
         this.block = block;
+    }
+
+    @Override
+    public int compareTo(Object obj) {
+        Account newAccount = (Account) obj;
+        if (newAccount.getBalance() > this.getBalance()) {
+            return 1;
+        } else if (newAccount.getBalance() == this.getBalance()) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Account #" + accountNumber +
+                " in " + currency +
+                ". Balance: " + balance +
+                ". Status: " + ((!block) ? "active" : "blocked") + ".";
     }
 }
