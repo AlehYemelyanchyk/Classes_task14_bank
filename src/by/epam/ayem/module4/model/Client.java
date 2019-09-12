@@ -1,4 +1,4 @@
-package by.epam.ayem.module4;
+package by.epam.ayem.module4.model;
 
 /*4. Счета. Клиент может иметь несколько счетов в банке. Учитывать возможность блокировки/разблокировки счета.
 Реализовать поиск и сортировку счетов. Вычисление общей сумы по счетам. Вычисление общей суммы по всем счетам,
@@ -31,5 +31,10 @@ public class Client {
 
     public void setAccounts(List<Account> accounts) {
         this.accounts = accounts;
+    }
+
+    @Override
+    public String toString() {
+        return surname;
     }
 }

@@ -1,4 +1,4 @@
-package by.epam.ayem.module4;
+package by.epam.ayem.module4.model;
 
 /*4. Счета. Клиент может иметь несколько счетов в банке. Учитывать возможность блокировки/разблокировки счета.
 Реализовать поиск и сортировку счетов. Вычисление общей сумы по счетам. Вычисление общей суммы по всем счетам,
@@ -6,20 +6,43 @@ package by.epam.ayem.module4;
 
 public class Account implements Comparable {
 
+    private Client client;
     private long accountNumber;
-    private int balance = 0;
-    private boolean block = false;
+    private int balance;
+    private boolean block;
     private Currency currency;
 
-    public Account(long accountNumber, Currency currency) {
+    public Account(Client client, long accountNumber, Currency currency) {
+        this.client = client;
         this.accountNumber = accountNumber;
         this.currency = currency;
     }
 
-    public Account(long accountNumber, int balance, Currency currency) {
+    public Account(Client client, long accountNumber, int balance, Currency currency) {
+        this.client = client;
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.currency = currency;
+    }
+
+    @Override
+    public int compareTo(Object obj) {
+        Account newAccount = (Account) obj;
+        if (newAccount.getBalance() > this.getBalance()) {
+            return 1;
+        } else if (newAccount.getBalance() == this.getBalance()) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public Currency getCurrency() {
@@ -55,20 +78,8 @@ public class Account implements Comparable {
     }
 
     @Override
-    public int compareTo(Object obj) {
-        Account newAccount = (Account) obj;
-        if (newAccount.getBalance() > this.getBalance()) {
-            return 1;
-        } else if (newAccount.getBalance() == this.getBalance()) {
-            return 0;
-        } else {
-            return -1;
-        }
-    }
-
-    @Override
     public String toString() {
-        return "Account #" + accountNumber +
+        return client + ". Account #" + accountNumber +
                 " in " + currency +
                 ". Balance: " + balance +
                 ". Status: " + ((!block) ? "active" : "blocked") + ".";
