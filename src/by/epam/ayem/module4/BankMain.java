@@ -27,6 +27,7 @@ public class BankMain {
         smithBankService.sortByBalance(smith);
         smithBankService.showAllAccounts(smith);
         System.out.println("===========================================================");
+
         smithBankService.blockAccount(smith,45285545542L);
         smithBankService.allAccountsSum(smith);
         smithBankService.positiveNegativeSum(smith);
