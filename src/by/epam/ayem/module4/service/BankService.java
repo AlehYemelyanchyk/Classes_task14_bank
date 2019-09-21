@@ -1,7 +1,7 @@
 package by.epam.ayem.module4.service;
 
 /*4. Счета. Клиент может иметь несколько счетов в банке. Учитывать возможность блокировки/разблокировки счета.
-Реализовать поиск и сортировку счетов. Вычисление общей сумы по счетам. Вычисление общей суммы по всем счетам,
+Реализовать поиск и сортировку счетов. Вычисление общей суммы по счетам. Вычисление общей суммы по всем счетам,
 имеющим положительный и отрицательный балансы отдельно.*/
 
 import by.epam.ayem.module4.model.Account;
@@ -16,19 +16,19 @@ public class BankService {
         client.getAccounts().add(account);
     }
 
-    public void allAccountsSum(Client client) {
+    public void showAllAccountsSum(Client client) {
         int sum = 0;
         for (Account account : client.getAccounts()) {
             sum += account.getBalance();
         }
-        System.out.println("Mr/Mrs " + client + ", total amount of all your accounts = " + sum);
+        System.out.println("Mr/Mrs " + client.getSurname() + ", total amount of all your accounts = " + sum);
     }
 
     public void blockAccount(Client client, Long number) {
         for (Account account : client.getAccounts()) {
             if (account.getAccountNumber() == number) {
-                account.setBlock(true);
-                System.out.println("Mr/Mrs " + client + ", your account №" + number + " has been blocked");
+                account.setBlocked(true);
+                System.out.println("Mr/Mrs " + client.getSurname() + ", your account №" + number + " has been blocked");
             }
         }
     }
@@ -36,13 +36,13 @@ public class BankService {
     public void unblockAccount(Client client, Long number) {
         for (Account account : client.getAccounts()) {
             if (account.getAccountNumber() == number) {
-                account.setBlock(false);
-                System.out.println("Mr/Mrs " + client + ", your account №" + number + " has been unblocked");
+                account.setBlocked(false);
+                System.out.println("Mr/Mrs " + client.getSurname() + ", your account №" + number + " has been unblocked");
             }
         }
     }
 
-    public void positiveNegativeSum(Client client) {
+    public void showPositiveNegativeSum(Client client) {
         int sumPositive = 0;
         int sumNegative = 0;
         for (Account account : client.getAccounts()) {
@@ -52,19 +52,21 @@ public class BankService {
                 sumNegative += account.getBalance();
             }
         }
-        System.out.println("Mr/Mrs " + client + ", total amount of all your positive balance accounts = " + sumPositive);
-        System.out.println("Mr/Mrs " + client + ", total amount of all your negative balance accounts = " + sumNegative);
+        System.out.println("Mr/Mrs " + client.getSurname()
+                + ", total amount of all your positive balance accounts = " + sumPositive);
+        System.out.println("Mr/Mrs " + client.getSurname()
+                + ", total amount of all your negative balance accounts = " + sumNegative);
     }
 
-    public void searchBlocked(Client client) {
+    public void searchBlockedAccounts(Client client) {
         for (Account account : client.getAccounts()) {
-            if (account.isBlock()) {
+            if (account.isBlocked()) {
                 System.out.println(account);
             }
         }
     }
 
-    public void searchByCurrency(Client client, Currency currency) {
+    public void searchAccountByCurrency(Client client, Currency currency) {
         for (Account account : client.getAccounts()) {
             if (account.getCurrency().equals(currency)) {
                 System.out.println(account);
@@ -78,7 +80,7 @@ public class BankService {
         }
     }
 
-    public void sortByBalance(Client client) {
+    public void sortAccountsByBalance(Client client) {
         Collections.sort(client.getAccounts());
     }
 }

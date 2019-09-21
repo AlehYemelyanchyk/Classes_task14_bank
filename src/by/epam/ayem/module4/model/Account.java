@@ -1,16 +1,16 @@
 package by.epam.ayem.module4.model;
 
 /*4. Счета. Клиент может иметь несколько счетов в банке. Учитывать возможность блокировки/разблокировки счета.
-Реализовать поиск и сортировку счетов. Вычисление общей сумы по счетам. Вычисление общей суммы по всем счетам,
+Реализовать поиск и сортировку счетов. Вычисление общей суммы по счетам. Вычисление общей суммы по всем счетам,
 имеющим положительный и отрицательный балансы отдельно.*/
 
 public class Account implements Comparable {
 
-    private Client client;
+    private final Client client;
     private long accountNumber;
     private int balance;
-    private boolean block;
-    private Currency currency;
+    private boolean blocked;
+    private final Currency currency;
 
     public Account(Client client, long accountNumber, Currency currency) {
         this.client = client;
@@ -28,12 +28,12 @@ public class Account implements Comparable {
     @Override
     public int compareTo(Object obj) {
         Account newAccount = (Account) obj;
-        if (newAccount.getBalance() > this.getBalance()) {
-            return 1;
-        } else if (newAccount.getBalance() == this.getBalance()) {
+        if (this.getBalance() < newAccount.getBalance()) {
+            return -1;
+        } else if (this.getBalance() == newAccount.getBalance()) {
             return 0;
         } else {
-            return -1;
+            return 1;
         }
     }
 
@@ -41,16 +41,8 @@ public class Account implements Comparable {
         return client;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
     public Currency getCurrency() {
         return currency;
-    }
-
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
     }
 
     public long getAccountNumber() {
@@ -69,19 +61,19 @@ public class Account implements Comparable {
         this.balance = balance;
     }
 
-    public boolean isBlock() {
-        return block;
+    public boolean isBlocked() {
+        return blocked;
     }
 
-    public void setBlock(boolean block) {
-        this.block = block;
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
     }
 
     @Override
     public String toString() {
-        return client + ". Account #" + accountNumber +
+        return client.getSurname() + ". Account #" + accountNumber +
                 " in " + currency +
                 ". Balance: " + balance +
-                ". Status: " + ((!block) ? "active" : "blocked") + ".";
+                ". Status: " + ((!blocked) ? "active" : "blocked") + ".";
     }
 }
